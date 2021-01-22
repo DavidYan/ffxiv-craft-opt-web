@@ -612,7 +612,7 @@ function simSynth(individual, startState, assumeSuccess, verbose, debug, logOutp
         }
 
         // Calculate Progress, Quality and Durability gains and losses under effect of modifiers
-        var r = ApplyModifiers(s, action, SimCondition);
+        var r = ApplyModifiers(s, action, lastAction, SimCondition);
 
         // Calculate final gains / losses
         var successProbability = r.successProbability;
