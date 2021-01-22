@@ -236,7 +236,7 @@ function getEffectiveCrafterLevel(synth) {
     return effCrafterLevel;
 }
 
-function ApplyModifiers(s, action, condition) {
+function ApplyModifiers(s, action, lastAction, condition) {
 
     // Effect Modifiers
     //=================
@@ -369,6 +369,11 @@ function ApplyModifiers(s, action, condition) {
             bQualityGain = 0;
             cpCost = 0;
         }
+    }
+
+    // Standard Touch combo'd from Basic Touch has reduced CP
+    if(lastAction != null && isActionEq(lastAction, AllActions.basicTouch) && isActionEq(action, AllActions.standardTouch)) {
+    	cpCost = 18;
     }
 
     return {
@@ -594,6 +599,7 @@ function simSynth(individual, startState, assumeSuccess, verbose, debug, logOutp
 
     for (var i = 0; i < individual.length; i++) {
         var action = individual[i];
+        var lastAction = i > 0 ? individual[i-1] : null;
 
         // Occur regardless of dummy actions
         //==================================
