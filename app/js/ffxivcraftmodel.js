@@ -606,7 +606,7 @@ function simSynth(individual, startState, assumeSuccess, verbose, debug, logOutp
             comboStandardTouch.cpCost = 18;
             action = comboStandardTouch;
             console.log("comboStandardTouch");
-            comsole.log(action)
+            console.log(action)
             individual[i] = action;
         }
 
@@ -910,7 +910,7 @@ function MonteCarloSequence(individual, startState, assumeSuccess, conditionalAc
             comboStandardTouch.cpCost = 18;
             action = comboStandardTouch;
             console.log("comboStandardTouch");
-            comsole.log(action)
+            console.log(action)
             individual[i] = action;
         }
 
