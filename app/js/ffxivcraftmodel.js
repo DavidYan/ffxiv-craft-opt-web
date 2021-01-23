@@ -682,7 +682,7 @@ function simSynth(individual, startState, assumeSuccess, verbose, debug, logOutp
 
 }
 
-function MonteCarloStep(startState, action, assumeSuccess, verbose, debug, logOutput) {
+function MonteCarloStep(startState, action, lastAction, assumeSuccess, verbose, debug, logOutput) {
     verbose = verbose !== undefined ? verbose : true;
     debug = debug !== undefined ? debug : false;
     logOutput = logOutput !== undefined ? logOutput : null;
@@ -731,7 +731,7 @@ function MonteCarloStep(startState, action, assumeSuccess, verbose, debug, logOu
     }
 
     // Calculate Progress, Quality and Durability gains and losses under effect of modifiers
-    var r = ApplyModifiers(s, action, MonteCarloCondition);
+    var r = ApplyModifiers(s, action, lastAction, MonteCarloCondition);
 
     // Success or Failure
     var success = 0;
@@ -889,6 +889,7 @@ function MonteCarloSequence(individual, startState, assumeSuccess, conditionalAc
 
     for (i=0; i < individual.length; i++) {
         var action = individual[i];
+        var lastAction = i > 0 ? individual[i-1] : null;
 
         // Determine if action is usable
         var usable = action.onExcellent && s.condition === 'Excellent' ||
@@ -900,33 +901,33 @@ function MonteCarloSequence(individual, startState, assumeSuccess, conditionalAc
             // Manually re-add condition dependent action when conditions are met
             if (s.condition === 'Excellent' && s.trickUses < maxConditionUses) {
                 if (onExcellentOnlyActions.length > 0) {
-                    s = MonteCarloStep(s, onExcellentOnlyActions.shift(), assumeSuccess, verbose, debug, logOutput);
+                    s = MonteCarloStep(s, onExcellentOnlyActions.shift(), lastAction, assumeSuccess, verbose, debug, logOutput);
                     states.push(s);
                 }
                 else if (onGoodOrExcellentActions.length > 0) {
-                    s = MonteCarloStep(s, onGoodOrExcellentActions.shift(), assumeSuccess, verbose, debug, logOutput);
+                    s = MonteCarloStep(s, onGoodOrExcellentActions.shift(), lastAction, assumeSuccess, verbose, debug, logOutput);
                     states.push(s);
                 }
             }
             if (s.condition === 'Good' && s.trickUses < maxConditionUses) {
                 if (onGoodOnlyActions.length > 0) {
-                    s = MonteCarloStep(s, onGoodOnlyActions.shift(), assumeSuccess, verbose, debug, logOutput);
+                    s = MonteCarloStep(s, onGoodOnlyActions.shift(), lastAction, assumeSuccess, verbose, debug, logOutput);
                     states.push(s);
                 }
                 else if (onGoodOrExcellentActions.length > 0) {
-                    s = MonteCarloStep(s, onGoodOrExcellentActions.shift(), assumeSuccess, verbose, debug, logOutput);
+                    s = MonteCarloStep(s, onGoodOrExcellentActions.shift(), lastAction, assumeSuccess, verbose, debug, logOutput);
                     states.push(s);
                 }
             }
             if (s.condition === 'Poor' && s.trickUses < maxConditionUses) {
                 if (onPoorOnlyActions.length > 0) {
-                    s = MonteCarloStep(s, onPoorOnlyActions.shift(), assumeSuccess, verbose, debug, logOutput);
+                    s = MonteCarloStep(s, onPoorOnlyActions.shift(), lastAction, assumeSuccess, verbose, debug, logOutput);
                     states.push(s);
                 }
             }
 
             // Process the original action as another step
-            s = MonteCarloStep(s, action, assumeSuccess, verbose, debug, logOutput);
+            s = MonteCarloStep(s, action, lastAction, assumeSuccess, verbose, debug, logOutput);
             states.push(s);
         }
         else if (conditionalActionHandling === 'skipUnusable') {
@@ -939,13 +940,13 @@ function MonteCarloSequence(individual, startState, assumeSuccess, conditionalAc
             }
             // Otherwise, process action as normal
             else {
-                s = MonteCarloStep(s, action, assumeSuccess, verbose, debug, logOutput);
+                s = MonteCarloStep(s, action, lastAction, assumeSuccess, verbose, debug, logOutput);
                 states.push(s);
             }
         }
         else if (conditionalActionHandling === 'ignoreUnusable') {
             // If not usable, skip action effect, progress other status counters
-            s = MonteCarloStep(s, action, assumeSuccess, verbose, debug, logOutput);
+            s = MonteCarloStep(s, action, lastAction, assumeSuccess, verbose, debug, logOutput);
             states.push(s);
         }
     }
