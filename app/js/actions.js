@@ -79,5 +79,5 @@ var AllActions = {
 };
 
 var ComboActions = {
-    comboStandardTouch: new Action( 'comboStandardTouch',   '(Combo) Standard Touch', 10,    32,  1.0, 1.25,0.0, 'immediate',   1,  'All',          18),
+    comboStandardTouch: new Action( 'comboStandardTouch',   '(Combo) Standard Touch', 10,    18,  1.0, 1.25,0.0, 'immediate',   1,  'All',          18),
 }

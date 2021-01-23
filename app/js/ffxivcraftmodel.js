@@ -1085,7 +1085,7 @@ function MonteCarloSim(individual, synth, nRuns, assumeSuccess, conditionalActio
 
     for (var i = 0; i < bestSequenceStates.length; i++) {
         var s = bestSequenceStates[i];
-        var action = AllActions[s.action];
+        var action = AllActions[s.action] || ComboActions[s.action];
         var actionName = action ? action.name : '';
         logger.log('%2d %30s %5.0f %5.0f %8.0f %8.0f %5.0f %5.0f %5.0f %5.0f %5.0f %5.0f %-10s %5.0f', s.step, actionName, s.durabilityState, s.cpState, s.qualityState, s.progressState, s.iqCnt, s.control, s.qualityGain, s.bProgressGain, s.bQualityGain, s.wastedActions, s.condition, s.success);
     }
@@ -1098,7 +1098,7 @@ function MonteCarloSim(individual, synth, nRuns, assumeSuccess, conditionalActio
 
     for (var i = 0; i < worseSequenceStates.length; i++) {
         var s = worseSequenceStates[i];
-        var action = AllActions[s.action];
+        var action = AllActions[s.action] || ComboActions[s.action];
         var actionName = action ? action.name : '';
         logger.log('%2d %30s %5.0f %5.0f %8.0f %8.0f %5.0f %5.0f %5.0f %5.0f %5.0f %5.0f %-10s %5.0f', s.step, actionName, s.durabilityState, s.cpState, s.qualityState, s.progressState, s.iqCnt, s.control, s.qualityGain, s.bProgressGain, s.bQualityGain, s.wastedActions, s.condition, s.success);
     }
