@@ -901,8 +901,12 @@ function MonteCarloSequence(individual, startState, assumeSuccess, conditionalAc
         {
             var clone = new Object;
             var comboStandardTouch = Object.assign(clone, AllActions.standardTouch);
+            console.log("standardtouch");
+            console.log(AllActions.standardTouch);
             comboStandardTouch.cpCost = 18;
             action = comboStandardTouch;
+            console.log("comboStandardTouch");
+            comsole.log(action)
             individual[i] = action;
         }
 
