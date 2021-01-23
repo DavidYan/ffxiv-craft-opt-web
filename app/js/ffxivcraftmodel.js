@@ -599,9 +599,10 @@ function simSynth(individual, startState, assumeSuccess, verbose, debug, logOutp
         // Stealth upgrade standard touch if combo'd
         if(lastAction != null && isActionEq(lastAction, AllActions.basicTouch) && isActionEq(action, AllActions.standardTouch))
         {
-            var comboStandardTouch = AllActions.standardTouch.clone();
+            var clone = new Object;
+            var comboStandardTouch = Object.assign(clone, AllActions.standardTouch);
             comboStandardTouch.cpCost = 18;
-            action = comboStandardTouch
+            action = comboStandardTouch;
             individual[i] = action;
         }
 
@@ -898,7 +899,8 @@ function MonteCarloSequence(individual, startState, assumeSuccess, conditionalAc
         // Stealth upgrade standard touch if combo'd
         if(lastAction != null && isActionEq(lastAction, AllActions.basicTouch) && isActionEq(action, AllActions.standardTouch))
         {
-            var comboStandardTouch = AllActions.standardTouch.clone();
+            var clone = new Object;
+            var comboStandardTouch = Object.assign(clone, AllActions.standardTouch);
             comboStandardTouch.cpCost = 18;
             action = comboStandardTouch;
             individual[i] = action;
