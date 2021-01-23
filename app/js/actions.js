@@ -77,3 +77,7 @@ var AllActions = {
     // Special Actions - not selectable
     dummyAction: new Action(        'dummyAction',          '______________',        0,      0,  1.0, 0.0, 0.0, 'immediate',   1,  'All',           1)
 };
+
+var ComboActions = {
+    comboStandardTouch: new Action( 'comboStandardTouch',   '(Combo) Standard Touch', 10,    32,  1.0, 1.25,0.0, 'immediate',   1,  'All',          18),
+}
